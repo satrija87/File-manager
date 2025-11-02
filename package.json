@@ -1,0 +1,19 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "Modular CLI File Manager",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "file",
+    "manager",
+    "nodejs",
+    "cli"
+  ],
+  "author": "satrija87",
+  "license": "ISC"
+}
