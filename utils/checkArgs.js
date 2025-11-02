@@ -4,7 +4,7 @@ export const checkArgs = (args, n) => {
     return false;
   }
   if (args.length > n) {
-    console.log('Invalid input: too many argument(s)');
+    console.log('Invalid input: too many arguments');
     return false;
   }
   return true;
