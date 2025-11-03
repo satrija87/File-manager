@@ -1,7 +1,9 @@
-import { readdir, access, constants } from 'fs/promises';
+import { readdir } from 'fs/promises';
 import fs from 'fs';
 import path from 'path';
-import { cwd as processCwd } from 'node:process';
+import { cwd as processCwd, chdir } from 'node:process';
+import { stat, access } from 'node:fs/promises';
+import { constants } from 'node:fs';
 
 export const getList = async (dir) => {
   const items = await readdir(dir, { withFileTypes: true });
@@ -30,8 +32,14 @@ export const goUpper = (dir) => {
 
 export const goToFolder = async (folder, cwd) => {
   const target = path.isAbsolute(folder) ? folder : path.resolve(cwd, folder);
-  if (!fs.existsSync(target) || !fs.statSync(target).isDirectory()) {
+
+  const stats = await stat(target).catch(() => {
     throw new Error('Invalid path');
+  });
+
+  if (!stats.isDirectory()) {
+    throw new Error('Not a directory');
   }
+
   return target;
 };

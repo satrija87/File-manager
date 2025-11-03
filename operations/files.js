@@ -44,21 +44,33 @@ export const renameFile = async (pathdir, name, newname) => {
 export const copyFile = async (pathdir, src, desc) => {
   try {
     const srcPath = join(pathdir, src);
-    const descPath = join(pathdir, desc);
+    const destDir = join(pathdir, desc);
+
+    const fileName = basename(src);
+    const destFilePath = join(destDir, fileName);
+
+    await mkdir(destDir, { recursive: true });
+
     const readStream = createReadStream(srcPath);
-    const writeStream = createWriteStream(descPath);
+    const writeStream = createWriteStream(destFilePath);
+
     await pipeline(readStream, writeStream);
-  } catch {
+  } catch (error) {
     console.log('Operation failed');
   }
 };
 
 export const moveFile = async (pathdir, src, desc) => {
   try {
-    await copyFile(pathdir, src, desc);
     const srcPath = join(pathdir, src);
+    const destDir = join(pathdir, desc);
+    const fileName = basename(src);
+    const destFilePath = join(destDir, fileName);
+
+    await copyFile(pathdir, src, desc);
+
     await unlink(srcPath);
-  } catch {
+  } catch (error) {
     console.log('Operation failed');
   }
 };
